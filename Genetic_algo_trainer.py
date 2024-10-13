@@ -2,6 +2,83 @@ import numpy as np
 import subprocess
 import matplotlib as plt
 from concurrent.futures import ThreadPoolExecutor, as_completed
+"""
+Genetic Algorithm (GA) Trainer for a Mars Lander Simulation in C++
+
+This script uses a genetic algorithm to optimize the parameters of a PID controller implemented in C++ for a simulated Mars lander. 
+The goal is to find the optimal combination of PID controller gains and height constant for efficient landings.
+
+Key Components:
+- Population-based approach where each individual represents a set of controller parameters (PID gains and height constant).
+- The algorithm iterates through multiple generations, applying selection, crossover, and mutation to evolve the population towards better solutions.
+- The C++ executable (`lander_trainer`) evaluates each individual's fitness by simulating the lander's performance with the given parameters.
+- Elitism ensures that the best individuals of each generation are retained in the next generation.
+- Stagnation detection restarts the population if there is no improvement over multiple generations.
+
+Classes:
+---------
+LanderGA:
+    A class that encapsulates the genetic algorithm for optimizing the lander's controller parameters.
+
+    Attributes:
+    -----------
+    population_size : int
+        The number of individuals in each population generation (default is 15).
+    num_generations : int
+        The number of generations to evolve the population (default is 40).
+    crossover_chance : float
+        The probability that crossover occurs between two parents (default is 0.7).
+    mutation_rate : float
+        The probability that a mutation occurs in an offspring (default is 0.2).
+    tournament_size : int
+        The number of individuals competing in tournament selection (default is 10).
+    elitism_size : int
+        The number of top-performing individuals retained from each generation (default is 2).
+    gene_size : int
+        The number of parameters (genes) in each individual, represents the PID gains and height constant.
+    cpp_exe : str
+        Path to the C++ executable (`lander_trainer`) that evaluates each individual's fitness.
+    weight_range : tuple
+        The range of values for the PID gains (default is (1, 30)).
+    const_range : tuple
+        The range of values for the height constant (default is (0.001, 0.1)).
+
+    Methods:
+    --------
+    initialize_population():
+        Initializes the population with random values for the PID gains and height constant.
+
+    evaluate_individual(individual):
+        Evaluates the fitness of a single individual by running the C++ simulation with the individual's parameters.
+
+    evaluate_fitness(population):
+        Evaluates the fitness of the entire population using multithreading to speed up the process.
+
+    tournament_selection(population, fitnesses):
+        Selects individuals for crossover using tournament selection based on their fitness.
+
+    crossover(parents):
+        Performs crossover between pairs of parents to create offspring.
+
+    mutate(offspring):
+        Applies mutation to the offspring by introducing small random changes to the genes.
+
+    run():
+        Executes the genetic algorithm over multiple generations, tracking the best individuals and detecting stagnation.
+
+    Returns:
+    --------
+    tuple:
+        - Best individual found (PID gains and height constant).
+        - Best fitness achieved.
+
+Usage:
+------
+    To run the genetic algorithm:
+    >>> ga = LanderGA()
+    >>> best_params, best_fitness = ga.run()
+    >>> print(f"Optimization complete. Best parameters: {best_params}, Best fitness: {best_fitness}")
+"""
 
 class LanderGA:
 
