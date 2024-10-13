@@ -79,52 +79,6 @@ class LanderGA:
                         # Gaussian mutation with smaller variance for more refined changes
                         offspring[i, j] *= np.random.normal(1, 0.1)  # Reduce standard deviation
         return offspring
-    
-    # def run(self):
-    #     population = self.initialize_population()
-    #     best_fitnesses = []
-    #     avg_fitnesses = []
-    #     overall_best_individual = None
-    #     overall_best_fitness = float('-inf')
-
-    #     for generation in range(self.num_generations):
-    #         fitnesses = self.evaluate_fitness(population)
-            
-    #         # Update overall best
-    #         gen_best_idx = np.argmax(fitnesses)
-    #         gen_best_fitness = fitnesses[gen_best_idx]
-    #         gen_best_individual = population[gen_best_idx]
-            
-    #         if gen_best_fitness > overall_best_fitness:
-    #             overall_best_fitness = gen_best_fitness
-    #             overall_best_individual = gen_best_individual.copy()
-
-    #         print(f"Generation {generation}: Best Fitness = {gen_best_fitness}")
-    #         print(f"Best Individual: {gen_best_individual}")
-    #         print(f"Overall Best Fitness: {overall_best_fitness}")
-    #         print(f"Overall Best Individual: {overall_best_individual}")
-
-    #         best_fitnesses.append(gen_best_fitness)
-    #         avg_fitnesses.append(np.mean(fitnesses))
-
-    #         # Elitism
-    #         elite_indices = np.argsort(fitnesses)[-self.elitism_size:]
-    #         elites = population[elite_indices]
-
-    #         # Selection
-    #         selected = self.tournament_selection(population, fitnesses)
-
-    #         # Crossover
-    #         offspring = self.crossover(selected)
-
-    #         # Mutation
-    #         offspring = self.mutate(offspring)
-
-    #         # Create new population
-    #         population[:-self.elitism_size] = offspring
-    #         population[-self.elitism_size:] = elites
-
-    #     return overall_best_individual, overall_best_fitness
 
     def run(self):
         population = self.initialize_population()
